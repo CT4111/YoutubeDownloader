@@ -1,14 +1,15 @@
 from pytube import YouTube
-from tkinter import *
+from customtkinter import CTkButton,CTkEntry,CTkLabel
 import os
+import customtkinter as ctk
 
 
-def Download_link():
+
+def Download_link(txtfld,destination):
     a = txtfld.get()
     print(a)
     yt = YouTube(a)
     ys = yt.streams.get_highest_resolution()
-    destination = '.'
 
     # download the file
     out_file = ys.download(output_path=destination)
@@ -23,7 +24,7 @@ def Download_link():
 
 
 
-def DownloadAudio():
+def DownloadAudio(txtfld,destination):
     a = txtfld.get()
     print(a)
     yt = YouTube(a)
@@ -31,46 +32,46 @@ def DownloadAudio():
     # extract only audio
     video = yt.streams.filter(only_audio=True).first()
 
-    # check for destination to save file
-    print("Enter the destination (leave blank for current directory)")
-    #destination = 'python "C:\Benutzer\net\Musik"'
-    destination = '.'
-
     # download the file
     out_file = video.download(output_path=destination)
 
     # save the file
     base, ext = os.path.splitext(out_file)
-    new_file = base + '.mp3'
+    new_file = base + '.wav'
     os.rename(out_file, new_file)
-
     # result of success
     print(yt.title + " has been successfully downloaded.")
+def CreateWindow():
+    destination1 = "D:/music/Hazbin_Hotel"  #folder to save dowloadet video     $$$$$$$$$$$$$$$$$$$$$
+    destination2 = "D:/music/Hazbin_Hotel"  # folder to save dowloadet audio    §§§§§§§§§§§§§§§§§§§§§
+    ctk.set_appearance_mode("dark")
+    #window = CTk()
+    window = ctk.CTK()
+    window.iconbitmap(r"D:\pythonStufffffffff\Icon.ico")
+
+    lbl1 = CTkLabel(master=window, corner_radius=8, text="YouTube", fg_color='red', font=("Helvetica", 32))
+    lbl1.pack(pady = 10)
+    frame = ctk.CTkFrame(window)
+    frame.pack(expand = True,fill = "both",padx=20,pady=10)
+
+    lbl2 = CTkLabel(master=frame, text="Link", corner_radius=8, fg_color='red', font=("Helvetica", 12))
+    lbl2.pack(pady = 20)
+
+    buttonFrame = ctk.CTkFrame(frame,fg_color="transparent")
+    buttonFrame.pack()
+    btn_1 = CTkButton(buttonFrame, text="Download_MP4", fg_color='blue', command=lambda: Download_link(txtfld,destination1))
+    btn_1.pack(side = "left",padx = 10)
+    btn_2 = CTkButton(buttonFrame, text="Download_WAV", fg_color='blue', command=lambda: DownloadAudio(txtfld,destination2))
+    btn_2.pack(side = "left",padx=10)
+
+    txtfld = CTkEntry(frame, placeholder_text="This is Entry Widget")
+    txtfld.pack(pady=10)
 
 
-window = Tk()
 
-lbl1 = Label(window, text="YouTube", fg='red', font=("Helvetica", 32))
-lbl1.configure(bg='black')
-lbl1.place(x=230, y=50)
-lbl2 = Label(window, text="Link", fg='red', font=("Helvetica", 12))
-lbl2.configure(bg='black')
-lbl2.place(x=300, y=150)
-
-
-txtfld = Entry(window, text="This is Entry Widget", bd=5)
-txtfld.place(x=250, y=200)
-
-
-btn_1 = Button(window, text="Download_MP4", fg='blue', command=lambda: Download_link())
-btn_1.configure(bg='grey')
-btn_1.place(x=350, y=100)
-btn_2 = Button(window, text="Download_MP3", fg='blue', command=lambda: DownloadAudio())
-btn_2.configure(bg='grey')
-btn_2.place(x=200, y=100)
-
-window.title('YouTube_Downloader')
-window.configure(bg='black')
-window.geometry("600x400")
-window.mainloop()
-txtfld.pack()
+    window.title('YouTube_Downloader')
+    window.configure(background='black')
+    window.geometry("600x400")
+    window.mainloop()
+    txtfld.pack()
+CreateWindow()
