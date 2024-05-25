@@ -58,14 +58,17 @@ def CreateWindow():
     lbl2.pack(pady = 20)
 
     buttonFrame = ctk.CTkFrame(frame,fg_color="transparent")
-    buttonFrame.pack()
+
+
     btn_1 = CTkButton(buttonFrame, text="Download_MP4", fg_color='blue', command=lambda: Download_link(txtfld,destination1))
-    btn_1.pack(side = "left",padx = 10)
     btn_2 = CTkButton(buttonFrame, text="Download_WAV", fg_color='blue', command=lambda: DownloadAudio(txtfld,destination2))
-    btn_2.pack(side = "left",padx=10)
 
     txtfld = CTkEntry(frame, placeholder_text="This is Entry Widget")
+
     txtfld.pack(pady=10)
+    buttonFrame.pack()
+    btn_1.pack(side="left", padx=10)
+    btn_2.pack(side="left", padx=10)
 
 
 
