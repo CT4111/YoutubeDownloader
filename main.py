@@ -42,12 +42,12 @@ def DownloadAudio(txtfld,destination):
     # result of success
     print(yt.title + " has been successfully downloaded.")
 def CreateWindow():
-    destination1 = "D:/music/Hazbin_Hotel"  #folder to save dowloadet video     $$$$$$$$$$$$$$$$$$$$$
-    destination2 = "D:/music/Hazbin_Hotel"  # folder to save dowloadet audio    §§§§§§§§§§§§§§§§§§§§§
+    destination1 = ""#folder to save dowloadet video     $$$$$$$$$$$$$$$$$$$$$
+    destination2 = ""# folder to save dowloadet audio    §§§§§§§§§§§§§§§§§§§§§
     ctk.set_appearance_mode("dark")
-    #window = CTk()
-    window = ctk.CTK()
-    window.iconbitmap(r"D:\pythonStufffffffff\Icon.ico")
+
+    window = ctk.CTk()
+    #window.iconbitmap()add custom icon
 
     lbl1 = CTkLabel(master=window, corner_radius=8, text="YouTube", fg_color='red', font=("Helvetica", 32))
     lbl1.pack(pady = 10)
