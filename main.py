@@ -4,7 +4,7 @@ import yt_dlp as youtube_dl
 import tkinter as tk
 from tkinter import messagebox, filedialog
 
-ffmpeg_path = r"D:\ffmpeg-2023-10-23-git-ff5a3575fe-full_build\ffmpeg-2023-10-23-git-ff5a3575fe-full_build\bin\ffmpeg.exe"
+ffmpeg_path = r"Your Paht to ffmpeg.exe"
 
 def download_video(url, destination):
     ydl_opts = {
