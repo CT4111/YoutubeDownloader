@@ -1,15 +1,22 @@
+from customtkinter import CTkButton,CTkEntry,CTkLabel
 import os
-import traceback
 import yt_dlp as youtube_dl
-import tkinter as tk
-from tkinter import messagebox, filedialog
+import customtkinter as ctk
+from customtkinter import filedialog
+from tkinter import messagebox
+import traceback
 
-ffmpeg_path = r"Your Paht to ffmpeg.exe"
+ffmpeg_path = #destination do ffmpeg.exe
 
 def download_video(url, destination):
+    if not (url and destination):
+        messagebox.showwarning("Input Error", "Please provide a valid URL and destination.")
+
+        return
+
     ydl_opts = {
-        'format': 'best',
-        'outtmpl': os.path.join(destination, '%(title)s.%(ext)s'),
+        'format': 'bestvideo[height<=1080]/best[height<=1080]',
+        'outtmpl': os.path.join(destination[0], '%(title)s.%(ext)s'),
         'ffmpeg_location': ffmpeg_path,
     }
     try:
@@ -20,10 +27,14 @@ def download_video(url, destination):
         messagebox.showerror("Error", f"An error occurred: {e}")
         traceback.print_exc()
 
-def download_audio(url, destination):
+def download_audio(url,destination):
+    if not (url and destination):
+        messagebox.showwarning("Input Error", "Please provide a valid URL and destination.")
+
+        return
     ydl_opts = {
         'format': 'bestaudio/best',
-        'outtmpl': os.path.join(destination, '%(title)s.%(ext)s'),
+        'outtmpl': os.path.join(destination[0], '%(title)s.%(ext)s'),
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
@@ -38,37 +49,49 @@ def download_audio(url, destination):
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
         traceback.print_exc()
+def ChangeDestination(curDestination):
+    tempDestination = filedialog.askdirectory()
+    if tempDestination:
+        print(f"Destination changed to: {tempDestination}")
+        curDestination[0] = tempDestination
+    else:
+        print("No destination selected.")
+def CreateWindow():
+    destination = ["."]
+    ctk.set_appearance_mode("dark")
+    #window = CTk()
+    window = ctk.CTk()
+    #window.iconbitmap()
 
-def create_gui():
-    def on_download_video():
-        url = url_entry.get()
-        destination = filedialog.askdirectory()
-        if url and destination:
-            download_video(url, destination)
-        else:
-            messagebox.showwarning("Input Error", "Please provide a valid URL and destination.")
+    lbl1 = CTkLabel(master=window, corner_radius=8, text="YouTube", fg_color='red', font=("Helvetica", 32))
+    lbl1.pack(pady = 10)
+    frame = ctk.CTkFrame(window)
+    frame.pack(expand = True,fill = "both",padx=20,pady=10)
 
-    def on_download_audio():
-        url = url_entry.get()
-        destination = filedialog.askdirectory()
-        if url and destination:
-            download_audio(url, destination)
-        else:
-            messagebox.showwarning("Input Error", "Please provide a valid URL and destination.")
+    lbl2 = CTkLabel(master=frame, text="Link", corner_radius=8, fg_color='red', font=("Helvetica", 12))
+    lbl2.pack(pady = 20)
 
-    root = tk.Tk()
-    root.title("YouTube Downloader")
-    root.geometry("400x200")
+    buttonFrame = ctk.CTkFrame(frame,fg_color="transparent")
 
-    tk.Label(root, text="YouTube URL:").pack(pady=10)
-    url_entry = tk.Entry(root, width=50)
-    url_entry.pack(pady=5)
 
-    tk.Button(root, text="Download Video", command=on_download_video).pack(pady=10)
-    tk.Button(root, text="Download Audio", command=on_download_audio).pack(pady=10)
+    btn_1 = CTkButton(buttonFrame, text="Download_MP4", fg_color='blue', command=lambda: download_video(txtfld.get(),destination))
+    btn_2 = CTkButton(buttonFrame, text="Download_WAV", fg_color='blue', command=lambda: download_audio(txtfld.get(),destination))
 
-    root.mainloop()
+    btn_3 = CTkButton(frame, text="Change directory", fg_color='blue', command=lambda: ChangeDestination(destination))
+    txtfld = CTkEntry(frame, placeholder_text="YouTube Link")
+
+    txtfld.pack(pady=10)
+    buttonFrame.pack()
+    btn_1.pack(side="left", padx=10)
+    btn_2.pack(side="left", padx=10)
+    btn_3.pack(pady=10)
+
+
+    window.title('YouTube_Downloader')
+    window.configure(background='black')
+    window.geometry("600x400")
+    window.mainloop()
+    txtfld.pack()
 
 if __name__ == "__main__":
-
-    create_gui()
+    CreateWindow()
